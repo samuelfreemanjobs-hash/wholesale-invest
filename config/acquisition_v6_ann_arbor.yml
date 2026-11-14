@@ -1,0 +1,81 @@
+# Ann Arbor acquisition run — extends v6 defaults
+
+system:
+  name: Metro Detroit Acquisition Intelligence
+  version: "6.0"
+  mode: research_and_recommend
+  human_approval_required: true
+
+market:
+  phase: 2
+  primary: [Ann Arbor]
+  secondary: [Ypsilanti]
+  max_cities_per_run: 1
+  allow_market_expansion: false
+
+sourcing:
+  channels:
+    fsbo: false
+    craigslist: false
+    facebook_marketplace: false
+    authorized_public_records: true
+  respect_source_terms: true
+  candidate_target: 50
+  qualified_lead_target: 10
+  connector: json
+  candidates_file: data/live/ann_arbor_candidates.json
+
+property:
+  types: [single_family, duplex]
+  minimum_bedrooms: 2
+  maximum_bedrooms: 5
+  minimum_asking_price: 30000
+  maximum_asking_price: 350000
+  preferred_condition: needs_work
+  beginner_friendly: true
+
+underwriting:
+  target_assignment_fee_min: 3000
+  target_assignment_fee_max: 10000
+  investor_margin_and_cost_rate_default: 0.30
+  rate_is_provisional: true
+  require_sold_comps: true
+  require_rehab_range: true
+  require_buyer_match: false
+
+scoring:
+  maximum: 100
+  weights:
+    financial_feasibility: 30
+    seller_motivation: 15
+    comp_confidence: 15
+    buyer_demand: 15
+    execution_feasibility: 10
+    competition_advantage: 5
+    freshness_contactability: 5
+    data_reliability: 5
+  priority_bands:
+    - label: A+
+      min_score: 85
+    - label: A
+      min_score: 75
+    - label: B
+      min_score: 65
+    - label: C
+      min_score: 50
+    - label: Research
+      min_score: 0
+
+operations:
+  daily_human_time_budget_hours: 2.0
+  preserve_lead_history: true
+  deduplicate_properties: true
+  require_source_citations: true
+  send_messages_automatically: false
+  submit_offers_automatically: false
+
+compliance:
+  michigan_legal_review_required: true
+  listings_are_leads_not_ownership_proof: true
+  infer_hardship_from_demographics: false
+  human_review_before_offers: true

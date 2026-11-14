@@ -1,0 +1,75 @@
+# Final Score v4.5 — component definitions and priority bands
+
+formula: "FinalScore = MotivationScore + ProfitScore - RiskPenalty + CompetitiveAdvantageScore"
+
+components:
+  MotivationScore:
+    range: [0, 10]
+    drivers:
+      - distress_language
+      - time_pressure
+      - price_reductions
+      - landlord_pain
+      - as_is_needs_work
+      - vacancy_signals
+
+  ProfitScore:
+    range: [0, 10]
+    drivers:
+      - ask_vs_zip_arv
+      - bed_bath_layout
+      - city_tier_weight
+      - flip_and_rental_demand
+
+  RiskPenalty:
+    range: [0, 5]
+    subtract: true
+    drivers:
+      - high_crime_eviction_zones
+      - structural_red_flags
+      - no_photos_vague_access
+      - beginner_complexity
+
+  CompetitiveAdvantageScore:
+    range: [0, 5]
+    drivers:
+      - sniper_zone
+      - off_market_under_radar
+      - true_underpricing_vs_mispositioned_overpriced
+
+priority_bands:
+  - label: A+
+    min_final_score: 18
+  - label: A
+    min_final_score: 15
+  - label: B
+    min_final_score: 12
+  - label: C
+    min_final_score: 9
+  - label: Trash
+    min_final_score: 0
+
+close_probability:
+  High:
+    hints:
+      - Strong motivation + workable spread + off-market
+  Medium:
+    hints:
+      - Mixed signals or moderate competition
+  Low:
+    hints:
+      - Testing market, overpriced, or high risk
+
+offer_strategies:
+  - Lowball
+  - Moderate
+  - Creative
+  - Walk-away threshold
+
+default_offer_heuristic: "Start ~60–65% of ARV minus repairs; walk near ~70% ARV minus repairs unless creative structure applies."
+
+rehab_levels:
+  - Light
+  - Medium
+  - Heavy
+  - Unknown

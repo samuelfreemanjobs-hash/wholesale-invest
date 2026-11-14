@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AcquisitionLeadV6",
+  "type": "object",
+  "required": ["property_id", "address", "city", "sources", "score_total", "verification_status"],
+  "properties": {
+    "property_id": { "type": "string" },
+    "address": { "type": "string" },
+    "city": { "type": "string" },
+    "zip_code": { "type": "string" },
+    "asking_price": { "type": "number" },
+    "verification_status": {
+      "enum": ["verified", "partial", "unverified", "stale"]
+    },
+    "pipeline_status": {
+      "enum": ["candidate", "research", "qualified", "rejected", "outreach_draft"]
+    },
+    "score_total": { "type": "number", "maximum": 100 },
+    "priority_label": { "type": "string" },
+    "risk_class": { "enum": ["clear", "elevated", "hard_stop"] },
+    "arv_low": { "type": "number" },
+    "arv_base": { "type": "number" },
+    "arv_high": { "type": "number" },
+    "comp_confidence": { "enum": ["high", "medium", "low"] },
+    "rehab_low": { "type": "number" },
+    "rehab_base": { "type": "number" },
+    "rehab_high": { "type": "number" },
+    "buyer_mao": { "type": "number" },
+    "assignment_fee_target": { "type": "number" },
+    "assignment_feasible": { "type": "boolean" },
+    "buyer_match_ids": { "type": "array", "items": { "type": "string" } },
+    "motivation_evidence": { "type": "array", "items": { "type": "string" } },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["channel", "url", "retrieved_at"],
+        "properties": {
+          "channel": { "type": "string" },
+          "url": { "type": "string" },
+          "retrieved_at": { "type": "string", "format": "date-time" },
+          "snippet": { "type": "string" }
+        }
+      }
+    }
+  }
+}

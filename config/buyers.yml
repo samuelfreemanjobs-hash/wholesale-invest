@@ -1,0 +1,28 @@
+# Buyer Demand Database — document criteria explicitly; do not mark active without human verification.
+
+buyers:
+  - buyer_id: buyer_flip_warren_01
+    name: "Example flip buyer (Warren corridor)"
+    documented_criteria: true
+    active_ready: false  # set true only after human verifies funding + criteria
+    strategy: flip
+    target_cities: [Warren, Roseville, Sterling Heights]
+    target_zips: []
+    price_min: 40000
+    price_max: 120000
+    property_types: [single_family]
+    rehab_tolerance: moderate
+    notes: "Placeholder — replace with your verified cash buyers"
+
+  - buyer_id: buyer_rent_ypsi_01
+    name: "Example rental buyer (Ypsilanti)"
+    documented_criteria: true
+    active_ready: false
+    strategy: buy_and_hold
+    target_cities: [Ypsilanti]
+    target_zips: ["48197", "48198"]
+    price_min: 50000
+    price_max: 180000
+    property_types: [single_family, duplex]
+    rehab_tolerance: light_to_moderate
+    notes: "Placeholder — separate city vs township regs in underwriting"
