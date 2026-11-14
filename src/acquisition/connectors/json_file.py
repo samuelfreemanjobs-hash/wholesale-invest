@@ -53,6 +53,11 @@ class JsonCandidatesConnector(ListingConnector):
             street = item.get("street") or _parse_street(address)
             zip_code = str(item.get("zip_code") or _parse_zip(address))
             url = str(item.get("url", ""))
+            motivation: list[str] = ["mls_agent_listing"]
+            status_text = str(item.get("status_text", ""))
+            if "owner" in status_text.lower():
+                motivation.append("fsbo_listing_language")
+
             lead = PropertyLead(
                 property_id=property_id_from_address(street, item_city, zip_code),
                 address=street,
@@ -66,18 +71,20 @@ class JsonCandidatesConnector(ListingConnector):
                         channel=channel,
                         url=url,
                         retrieved_at=now,
-                        snippet=item.get("status_text", ""),
+                        snippet=status_text,
                     )
                 ],
                 verification=VerificationStatus.PARTIAL,
                 pipeline_status=PipelineStatus.CANDIDATE,
-                motivation_evidence=["mls_agent_listing"],
+                motivation_evidence=motivation,
                 metadata={
                     "contact_path": "listing_agent",
                     "property_type": str(item.get("home_type", "single_family")).lower(),
                     "zpid": item.get("zpid"),
                     "living_area_sqft": item.get("living_area_sqft"),
                     "competition_advantage": "low",
+                    "rental_market_rank": item.get("rental_market_rank"),
+                    "avg_market_rent": item.get("avg_market_rent"),
                 },
             )
             leads.append(lead)

@@ -62,9 +62,17 @@ def score_motivation(weights: dict[str, float], lead: PropertyLead) -> float:
 
 def score_buyer_demand(weights: dict[str, float], lead: PropertyLead) -> float:
     cap = weights["buyer_demand"]
-    if not lead.buyer_match_ids:
-        return cap * 0.15
-    return cap * _clamp(0.4 + 0.2 * len(lead.buyer_match_ids), 0.0, 1.0)
+    if lead.buyer_match_ids:
+        return cap * _clamp(0.4 + 0.2 * len(lead.buyer_match_ids), 0.0, 1.0)
+    rank = lead.metadata.get("rental_market_rank")
+    if rank is not None:
+        try:
+            rental_rank = int(rank)
+        except (TypeError, ValueError):
+            rental_rank = 20
+        tier = _clamp(1.0 - (rental_rank - 1) / 19.0, 0.35, 1.0)
+        return cap * tier
+    return cap * 0.15
 
 
 def score_execution(weights: dict[str, float], lead: PropertyLead) -> float:

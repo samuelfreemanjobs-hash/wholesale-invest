@@ -168,7 +168,9 @@ def run_daily_acquisitions(
     }
 
     rows = leads_to_rows(researched, scores, priorities)
-    market_slug = "_".join(c.lower().replace(" ", "-") for c in cities)
+    market_slug = market_cfg.get("report_slug") or "_".join(
+        c.lower().replace(" ", "-") for c in cities
+    )
     date_tag = datetime.now(timezone.utc).date()
     write_csv(out / f"acquisition_brief_{market_slug}_{date_tag}.csv", rows)
     write_json(out / f"acquisition_brief_{market_slug}_{date_tag}.json", report)
