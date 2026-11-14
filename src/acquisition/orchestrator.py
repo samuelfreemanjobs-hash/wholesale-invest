@@ -17,7 +17,7 @@ from .models import (
     RehabRange,
     ScoreBreakdown,
 )
-from .connectors import ManualCandidatesConnector
+from .connectors import JsonCandidatesConnector, ManualCandidatesConnector
 from .pipeline import dedupe_leads, promote_status, stamp_retrieval
 from .scoring import compute_score, priority_label
 from .underwriting import preliminary_assignment_fee, underwrite_lead
@@ -82,11 +82,20 @@ def run_daily_acquisitions(
     market_cfg = cfg["market"]
     cities = market_cfg["primary"][: market_cfg["max_cities_per_run"]]
 
-    connector = ManualCandidatesConnector()
+    sourcing_cfg = cfg.get("sourcing", {})
+    connector_name = sourcing_cfg.get("connector", "manual")
     candidates: list[PropertyLead] = []
     connector_errors: list[str] = []
 
     for city in cities:
+        if connector_name == "json":
+            rel = sourcing_cfg.get("candidates_file", "")
+            cand_path = Path(rel)
+            if not cand_path.is_absolute():
+                cand_path = Path(__file__).resolve().parents[2] / rel
+            connector = JsonCandidatesConnector(cand_path)
+        else:
+            connector = ManualCandidatesConnector()
         result = connector.discover(
             city=city,
             min_price=float(prop_cfg["minimum_asking_price"]),
@@ -159,6 +168,8 @@ def run_daily_acquisitions(
     }
 
     rows = leads_to_rows(researched, scores, priorities)
-    write_csv(out / f"acquisition_brief_{datetime.now(timezone.utc).date()}.csv", rows)
-    write_json(out / f"acquisition_brief_{datetime.now(timezone.utc).date()}.json", report)
+    market_slug = "_".join(c.lower().replace(" ", "-") for c in cities)
+    date_tag = datetime.now(timezone.utc).date()
+    write_csv(out / f"acquisition_brief_{market_slug}_{date_tag}.csv", rows)
+    write_json(out / f"acquisition_brief_{market_slug}_{date_tag}.json", report)
     return report
