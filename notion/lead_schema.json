@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LeadGen v4.5 — Spreadsheet / Notion lead row",
+  "description": "Column definitions for copy-paste into Google Sheets, Excel, or Notion database import.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "City": { "type": "string", "description": "Metro Detroit Top 20 city" },
+    "Tier": { "type": "string", "enum": ["Tier 1", "Tier 2", "Tier 3"] },
+    "NeighborhoodOrZip": { "type": "string" },
+    "AddressOrArea": { "type": "string", "description": "Full address or approx. area; EXAMPLE if training" },
+    "Source": { "type": "string", "enum": ["FSBO", "Marketplace", "Craigslist"] },
+    "AskingPrice": { "type": "number", "minimum": 0 },
+    "EstARV": { "type": "number", "minimum": 0 },
+    "EstRehabLevel": { "type": "string", "enum": ["Light", "Medium", "Heavy", "Unknown"] },
+    "SpreadEstimate": { "type": "number", "description": "EstARV - AskingPrice - RoughRehab" },
+    "Condition": {
+      "type": "string",
+      "enum": ["Needs work", "Cosmetic", "Move-in ready", "Unknown"]
+    },
+    "MotivationSignals": { "type": "string" },
+    "SellerPsychology": { "type": "string" },
+    "BuyerMatch": {
+      "type": "string",
+      "enum": ["Flipper", "Landlord", "BRRRR", "Premium Flip"]
+    },
+    "RiskNotes": { "type": "string" },
+    "CompetitiveAdvantageNotes": { "type": "string" },
+    "ContactMethod": { "type": "string", "enum": ["phone", "email", "DM", "Unknown"] },
+    "LinkOrUrl": { "type": "string", "format": "uri" },
+    "CloseProbability": { "type": "string", "enum": ["Low", "Medium", "High"] },
+    "FinalScore": { "type": "number" },
+    "PriorityLabel": { "type": "string", "enum": ["A+", "A", "B", "C", "Trash"] },
+    "RecommendedSellerMessage": { "type": "string" },
+    "SuggestedOfferStrategy": {
+      "type": "string",
+      "enum": ["Lowball", "Moderate", "Creative", "Walk-away threshold"]
+    },
+    "RunMetadata": {
+      "type": "object",
+      "properties": {
+        "dataClassification": { "type": "string", "enum": ["LIVE", "EXAMPLE", "TRAINING"] },
+        "runId": { "type": "string" },
+        "generatedAt": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
+  "required": [
+    "City",
+    "Source",
+    "AskingPrice",
+    "FinalScore",
+    "PriorityLabel"
+  ],
+  "columnOrder": [
+    "City",
+    "Tier",
+    "NeighborhoodOrZip",
+    "AddressOrArea",
+    "Source",
+    "AskingPrice",
+    "EstARV",
+    "EstRehabLevel",
+    "SpreadEstimate",
+    "Condition",
+    "MotivationSignals",
+    "SellerPsychology",
+    "BuyerMatch",
+    "RiskNotes",
+    "CompetitiveAdvantageNotes",
+    "ContactMethod",
+    "LinkOrUrl",
+    "CloseProbability",
+    "FinalScore",
+    "PriorityLabel",
+    "RecommendedSellerMessage",
+    "SuggestedOfferStrategy"
+  ]
+}

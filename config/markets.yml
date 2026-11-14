@@ -1,0 +1,123 @@
+# Metro Detroit Top 20 wholesaling markets — tiers, phases, sniper hints
+
+meta:
+  region: Metro Detroit
+  agent_version: "4.5"
+
+tiers:
+  tier_1_prime:
+    label: "Tier 1 – Prime"
+    weight_boost: 1.15
+    cities:
+      - name: Detroit
+        key_zips: ["48205", "48228", "48235", "48221"]
+        notes: Deep discount / bread & butter; ZIP-level ARV required
+      - name: Warren
+      - name: Pontiac
+      - name: Eastpointe
+      - name: Ypsilanti
+        notes: Rental cert / inspection regime — risk overlay
+      - name: Hazel Park
+      - name: Royal Oak
+        notes: Premium flip potential; tighter spreads
+
+  tier_2_solid:
+    label: "Tier 2 – Solid"
+    weight_boost: 1.05
+    cities:
+      - name: Roseville
+      - name: Taylor
+      - name: Southgate
+      - name: Inkster
+      - name: Dearborn
+      - name: Ann Arbor
+      - name: Sterling Heights
+      - name: Westland
+        notes: Rental certs; landlord-friendly BRRRR
+
+  tier_3_strategic:
+    label: "Tier 3 – Strategic"
+    weight_boost: 1.0
+    cities:
+      - name: St. Clair Shores
+      - name: Ferndale
+      - name: Madison Heights
+      - name: Oak Park
+      - name: Redford Township
+
+phases:
+  Phase 1:
+    primary: [Ypsilanti, Warren]
+    max_cities_default: 2
+  Phase 2:
+    add: [Sterling Heights]
+    detroit_zips: ["48205"] # one Detroit ZIP; expand in Phase 4
+    max_cities_default: 3
+  Phase 3:
+    add: [Royal Oak, Westland]
+    max_cities_default: 4
+  Phase 4:
+    all_top_20: true
+    max_cities_default: 6
+
+buyer_types:
+  - Flipper
+  - Landlord
+  - BRRRR
+  - Premium Flip
+
+sniper_zone_heuristics:
+  description: Under-attacked suburbs or non-obvious ZIPs with workable ARV spreads
+  signals:
+    - Low FSBO volume vs peer cities
+    - Off-market posts with distress language but few price cuts on MLS proxies
+    - Mispriced FSBO above ARV (time waster) vs below ARV (advantage)
+
+risk_overlays:
+  high_crime_zip_patterns: # qualitative; agent applies minus RiskPenalty
+    - Detroit core and selected 482xx
+  landlord_pain_hotspots:
+    - Ypsilanti
+    - Inkster
+  flood_watch:
+    - Downriver
+    - Near-water St. Clair Shores listings
+  inspection_regimes:
+    - Ypsilanti
+    - Westland
+
+motivation_keywords:
+  distress:
+    - as-is
+    - needs work
+    - handyman special
+    - fixer-upper
+    - TLC
+  urgency:
+    - must sell
+    - need gone
+    - relocating
+    - job change
+    - moving
+  estate:
+    - estate sale
+    - probate
+    - inherited
+  landlord:
+    - tenant won't pay
+    - eviction
+    - squatters
+    - tenant problem
+  rehab_fatigue:
+    - can't finish rehab
+    - partially remodeled
+    - ran out of money
+
+disqualification:
+  hard_filter:
+    - MLS disguised as FSBO
+    - Obvious scams
+    - Ultra-luxury outside price band
+    - Extreme structural disasters (beginner context)
+    - Duplicates
+    - Not wholesale-feasible

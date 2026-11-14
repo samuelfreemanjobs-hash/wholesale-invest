@@ -1,0 +1,62 @@
+# Lead Generation Agent v4.5 — default run configuration
+# Override per run via natural language or structured overrides.
+
+LeadGenConfig:
+  version: "4.5"
+  system_identity: "Lead Generation Agent v4.5"
+
+  TargetPhase: "Phase 1"
+  # Phase 1: Ypsi + Warren
+  # Phase 2: + Sterling Heights + one Detroit ZIP
+  # Phase 3: + Royal Oak + Westland
+  # Phase 4: all Top 20 markets
+
+  PrimaryMarkets:
+    - Ypsilanti
+    - Warren
+
+  SecondaryMarkets:
+    - Sterling Heights
+    - Detroit
+    - Royal Oak
+    - Westland
+
+  MaxCitiesPerRun: 2
+
+  Channels:
+    FSBO: true
+    Marketplace: true
+    Craigslist: true
+
+  ConditionPreference: needs_work_only # needs_work_only | both
+
+  MinPriceUSD: 30000
+  MaxPriceUSD: 350000
+  MinBeds: 2
+  MaxBeds: 5
+
+  OutputLeadCount:
+    FSBO: 5
+    OffMarket: 5
+
+  DailyTimeBudgetHours: 2.0
+
+  TimeBudgetSplit:
+    FSBO: 0.45
+    OffMarket: 0.55
+
+  SpreadsheetSchema: default # maps to notion/lead_schema.json
+
+  # Natural-language examples → normalized overrides
+  examples:
+    - input: "Pull Ypsilanti leads, needs work only"
+      overrides:
+        PrimaryMarkets: [Ypsilanti]
+        MaxCitiesPerRun: 1
+        ConditionPreference: needs_work_only
+
+    - input: "Phase 2 Warren and Sterling Heights, both condition types"
+      overrides:
+        TargetPhase: "Phase 2"
+        PrimaryMarkets: [Warren, Sterling Heights]
+        ConditionPreference: both
